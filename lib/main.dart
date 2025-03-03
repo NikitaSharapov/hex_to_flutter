@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// ci cd test
+
 class ColorFromHex {
   final int alpha;
   final int red;
@@ -109,120 +109,155 @@ class _AppState extends State<App> {
     return MaterialApp(
       title: 'Hex to Flutter',
       home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  hintText: 'Enter hex color code from Figma(e.g., #F5F5F5)',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+        appBar: AppBar(title: Text('Hex to Flutter'), centerTitle: true),
+        body: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 500),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Spacer(),
+                  TextField(
+                    controller: _textEditingController,
+                    decoration: InputDecoration(
+                      hintText:
+                          'Enter hex color code from Figma(e.g., #F5F5F5)',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Builder(
-                builder: (context) {
-                  if (_colorFromHex != null) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                  SizedBox(height: 20),
+                  Builder(
+                    builder: (context) {
+                      if (_colorFromHex != null) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SelectableText(
-                              'Color.fromARGB(${_colorFromHex!.alpha}, ${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue})',
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                  ClipboardData(
-                                    text:
-                                        'Color.fromARGB(${_colorFromHex!.alpha}, ${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue})',
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: SelectableText(
+                                    'Color.fromARGB(${_colorFromHex!.alpha}, ${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue})',
                                   ),
-                                );
-                              },
-                              icon: Icon(Icons.copy_outlined),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      ClipboardData(
+                                        text:
+                                            'Color.fromARGB(${_colorFromHex!.alpha}, ${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue})',
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.copy_outlined),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: SelectableText(
+                                    'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.alpha})',
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      ClipboardData(
+                                        text:
+                                            'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.alpha})',
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.copy_outlined),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: SelectableText(
+                                    'Color(${_colorFromHex!.flutterHexColor})',
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      ClipboardData(
+                                        text:
+                                            'Color(${_colorFromHex!.flutterHexColor})',
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.copy_outlined),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: SelectableText(
+                                    'Color.from(alpha: ${_colorFromHex!.flutterColor.a.toStringAsFixed(8)}, red: ${_colorFromHex!.flutterColor.r.toStringAsFixed(8)}, green: ${_colorFromHex!.flutterColor.g.toStringAsFixed(8)}, blue: ${_colorFromHex!.flutterColor.b.toStringAsFixed(8)})',
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      ClipboardData(
+                                        text:
+                                            'Color.from(alpha: ${_colorFromHex!.flutterColor.a.toStringAsFixed(8)}, red: ${_colorFromHex!.flutterColor.r.toStringAsFixed(8)}, green: ${_colorFromHex!.flutterColor.g.toStringAsFixed(8)}, blue: ${_colorFromHex!.flutterColor.b.toStringAsFixed(8)})',
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.copy_outlined),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            SizedBox(
+                              width: 200,
+                              height: 100,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: _colorFromHex!.flutterColor,
+                                ),
+                              ),
                             ),
                           ],
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
-                            SelectableText(
-                              'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.alpha})',
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                  ClipboardData(
-                                    text:
-                                        'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.alpha})',
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.copy_outlined),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
-                            SelectableText(
-                              'Color(${_colorFromHex!.flutterHexColor})',
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                  ClipboardData(
-                                    text:
-                                        'Color(${_colorFromHex!.flutterHexColor})',
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.copy_outlined),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
-                            SelectableText(
-                              'Color.from(alpha: ${_colorFromHex!.flutterColor.a.toStringAsFixed(8)}, red: ${_colorFromHex!.flutterColor.r.toStringAsFixed(8)}, green: ${_colorFromHex!.flutterColor.g.toStringAsFixed(8)}, blue: ${_colorFromHex!.flutterColor.b.toStringAsFixed(8)})',
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                  ClipboardData(
-                                    text:
-                                        'Color.from(alpha: ${_colorFromHex!.flutterColor.a.toStringAsFixed(8)}, red: ${_colorFromHex!.flutterColor.r.toStringAsFixed(8)}, green: ${_colorFromHex!.flutterColor.g.toStringAsFixed(8)}, blue: ${_colorFromHex!.flutterColor.b.toStringAsFixed(8)})',
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.copy_outlined),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: 200,
-                          height: 100,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: _colorFromHex!.flutterColor,
-                            ),
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
+                  Spacer(),
+                  Align(
+                    alignment: Alignment.center,
+                    child: RichText(
+                      textDirection: TextDirection.ltr,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: "Build on Flutter with ❤️ by "),
+                          TextSpan(
+                            text: 'NikitaSharapov',
+                            style: TextStyle(fontWeight: FontWeight.w500),
                           ),
-                        ),
-                      ],
-                    );
-                  }
-                  return SizedBox.shrink();
-                },
+                        ],
+                      ),
+                    ),
+                    // Text('Build on Flutter with ❤️ by NikitaSharapov'),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
