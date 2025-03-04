@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ColorFromHex {
   final int alpha;
@@ -33,6 +34,12 @@ class _AppState extends State<App> {
   final _textEditingController = TextEditingController();
 
   ColorFromHex? _colorFromHex;
+
+  Future<void> _launchUrl({required Uri url}) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   ColorFromHex _colorFromHexString({required String hexString}) {
     final pureHexString = hexString.replaceFirst('#', '');
@@ -245,15 +252,38 @@ class _AppState extends State<App> {
                       textDirection: TextDirection.ltr,
                       text: TextSpan(
                         children: [
-                          TextSpan(text: "Build on Flutter with ❤️ by "),
-                          TextSpan(
-                            text: 'NikitaSharapov',
-                            style: TextStyle(fontWeight: FontWeight.w500),
+                          WidgetSpan(
+                            child: Text('Build on Flutter with ❤️ by '),
+                          ),
+                          WidgetSpan(
+                            child: InkWell(
+                              hoverColor: Colors.transparent,
+                              onTap: () async {
+                                await _launchUrl(
+                                  url: Uri.parse(
+                                    'https://github.com/NikitaSharapov',
+                                  ),
+                                );
+                              },
+                              onHover: (value) {
+                                if (value) {}
+                              },
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      width: 0.5,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                child: Text('NikitaSharapov'),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    // Text('Build on Flutter with ❤️ by NikitaSharapov'),
                   ),
                 ],
               ),
