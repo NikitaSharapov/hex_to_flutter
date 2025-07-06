@@ -169,7 +169,7 @@ class _AppState extends State<App> {
                               children: [
                                 Expanded(
                                   child: SelectableText(
-                                    'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.alpha})',
+                                    'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.flutterColor.a.toStringAsFixed(1)})',
                                   ),
                                 ),
                                 IconButton(
@@ -177,7 +177,7 @@ class _AppState extends State<App> {
                                     await Clipboard.setData(
                                       ClipboardData(
                                         text:
-                                            'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.alpha})',
+                                            'Color.fromRGBO(${_colorFromHex!.red}, ${_colorFromHex!.green}, ${_colorFromHex!.blue}, ${_colorFromHex!.flutterColor.a.toStringAsFixed(1)})',
                                       ),
                                     );
                                   },
